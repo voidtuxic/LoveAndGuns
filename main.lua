@@ -1,6 +1,7 @@
 require('gamescreen')
 require('startscreen')
 require('gameoverscreen')
+require('sound')
 
 spacekeypress = false
 
@@ -8,6 +9,8 @@ function love.load()
    -- font courtesy of Ænigma - http://www.dafont.com/fr/visitor.font
    mainFont = love.graphics.newFont("visitor1.ttf", 30);
    screen = StartScreen.create(mainFont)
+   Sounds.shoot:setVolume(0.2)
+   Sounds.boom:setVolume(0.5)
 end
 
 function love.update(dt)

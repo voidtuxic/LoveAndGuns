@@ -1,5 +1,6 @@
 require('player')
 require('enemy')
+require('utils')
 
 GameScreen = {}
 GameScreen.__index = GameScreen
@@ -49,6 +50,8 @@ function GameScreen:update(dt)
       if v.power <= 0.8 then 
          self.player.score = self.player.score + v.score
          table.remove(self.enemies,k)
+         Sounds.boom:stop()
+         Sounds.boom:play()
       end
    end
 
@@ -58,7 +61,8 @@ function GameScreen:update(dt)
          and ((#self.enemies < 50 and self.enemytimer <= 0) or #self.enemies == 0) then -- capping at 50 enemies max, lags if not
       self.enemytimer = math.random(5,15)
       self.stagewaves = self.stagewaves + 1 -- new wave of enemies
-      for i = 1,math.random(5,10) do
+      for i = 1,math.random(5 + utils.clamp(0,5*(self.stagenumber/5),35),
+                              10 + utils.clamp(0,5*(self.stagenumber/5),35)) do -- you're not surviving. not today
          table.insert(self.enemies, Enemy.create(math.random(30,990),math.random(30,720),math.random(1,3)))
       end
    end

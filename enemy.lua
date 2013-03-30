@@ -1,5 +1,6 @@
 require "utils"
 require "bullet"
+require('sound')
 vector = require "vector"
 Enemy = {}
 Enemy.__index = Enemy
@@ -43,6 +44,8 @@ function Enemy:update(dt, player, explosions)
 			if self.bullettimer >= 2/self.power then -- shoot
 				self.bullettimer = 0
 				table.insert(self.bullets, Bullet.create(self.position.x,self.position.y, delta.x, delta.y, 4))
+				Sounds.shoot:stop()
+				Sounds.shoot:play()
 			end
 		else -- move towards player
 			self.position.x = self.position.x + delta.x

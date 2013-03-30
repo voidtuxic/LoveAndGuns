@@ -1,5 +1,6 @@
 require "bullet"
 require "utils"
+require('sound')
 vector = require "vector"
 Player = {}
 Player.__index = Player
@@ -37,6 +38,8 @@ function Player:update(dt)
 	if self.bullettimer >= 0.2 and love.mouse.isDown('l') then
 		self.bullettimer = 0
 		table.insert(self.bullets, Bullet.create(self.position.x,self.position.y, delta.x, delta.y))
+		Sounds.shoot:stop()
+		Sounds.shoot:play()
 	end
 
 	for k,v in ipairs(self.bullets) do
@@ -65,9 +68,39 @@ end
 
 function Player:draw()
 	love.graphics.setColor(100, 250, 100)
+    
+    utils.rotate(self.rotation + math.pi/2, self.position.x, self.position.y) -- this. helper. just don't look. don't
+	
+	-- primitive goodness
 	love.graphics.circle("line", self.position.x, self.position.y, 10)
-	love.graphics.line(self.position.x + math.cos(self.rotation)*5, self.position.y + math.sin(self.rotation)*5,
-		self.position.x + math.cos(self.rotation)*15, self.position.y + math.sin(self.rotation)*15)
+	love.graphics.line(self.position.x, self.position.y - 5,
+		self.position.x, self.position.y - 15)
+	love.graphics.line(
+		self.position.x - 10, self.position.y - 20,
+		self.position.x - 17, self.position.y - 20,
+		self.position.x - 17, self.position.y + 10,
+		self.position.x - 10, self.position.y + 10,
+		self.position.x - 10, self.position.y - 20
+		)
+	love.graphics.line(
+		self.position.x + 10, self.position.y - 20,
+		self.position.x + 17, self.position.y - 20,
+		self.position.x + 17, self.position.y + 10,
+		self.position.x + 10, self.position.y + 10,
+		self.position.x + 10, self.position.y - 20
+		)
+	love.graphics.triangle("line",
+		self.position.x + 17, self.position.y - 20,
+		self.position.x + 23, self.position.y - 20,
+		self.position.x + 17, self.position.y - 5
+		)
+	love.graphics.triangle("line",
+		self.position.x - 17, self.position.y - 20,
+		self.position.x - 23, self.position.y - 20,
+		self.position.x - 17, self.position.y - 5
+		)
+
+    utils.rotate(-(self.rotation + math.pi/2), self.position.x, self.position.y)
 
 	for k,v in ipairs(self.bullets) do
 	    v:draw()
