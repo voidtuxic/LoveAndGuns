@@ -38,6 +38,10 @@ function Player:update(dt)
 	if self.bullettimer >= 0.2 and love.mouse.isDown('l') then
 		self.bullettimer = 0
 		table.insert(self.bullets, Bullet.create(self.position.x,self.position.y, delta.x, delta.y))
+		table.insert(self.bullets, Bullet.create(self.position.x + math.cos(self.rotation + math.pi/2)*15,
+			self.position.y + math.sin(self.rotation + math.pi/2)*15, delta.x, delta.y))
+		table.insert(self.bullets, Bullet.create(self.position.x + math.cos(self.rotation - math.pi/2)*15,
+			self.position.y + math.sin(self.rotation - math.pi/2)*15, delta.x, delta.y))
 		Sounds.shoot:stop()
 		Sounds.shoot:play()
 	end
