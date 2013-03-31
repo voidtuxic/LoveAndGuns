@@ -107,6 +107,6 @@ function Player:draw()
     utils.rotate(-(self.rotation + math.pi/2), self.position.x, self.position.y)
 
 	for k,v in ipairs(self.bullets) do
-	    v:draw()
+	    v:draw({0, 200, 250})
 	end
 end

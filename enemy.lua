@@ -12,16 +12,26 @@ function Enemy.create(x, y, power)
    enemy.position.x = x
    enemy.position.y = y
    enemy.rotation = math.random(-1,1)
-   enemy.power = power
+   enemy.power = 0
+   enemy.tpower = power
    enemy.agroradius = power*300
    enemy.hasagro = false
    enemy.bullets = {}
    enemy.bullettimer = 0
    enemy.score = power*100
+   enemy.growing = true
    return enemy
 end
 
 function Enemy:update(dt, player, explosions)
+
+	if self.growing then -- useless growing effect, si senor
+		self.power = self.power + 0.1
+		if self.power >= self.tpower then
+			self.growing = false
+		end
+		return
+	end
 	-- agro check
 	self.hasagro = utils.checkCircularCollision(self.position.x, self.position.y, player.position.x, player.position.y, self.agroradius, 10) 
 

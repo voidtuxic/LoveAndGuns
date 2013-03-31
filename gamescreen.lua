@@ -47,7 +47,7 @@ function GameScreen:update(dt)
    -- update current enemies
    for k,v in ipairs(self.enemies) do
       v:update(dt,self.player,self.explosions)
-      if v.power <= 0.8 then 
+      if not v.growing and v.power <= 0.8 then 
          self.player.score = self.player.score + v.score
          table.remove(self.enemies,k)
          Sounds.boom:stop()

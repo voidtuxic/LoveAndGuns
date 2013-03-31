@@ -21,8 +21,9 @@ function Bullet:update(dt)
 	self.life = self.life + dt
 end
 
-function Bullet:draw()
-	love.graphics.setColor(250, 200, 0)
-	love.graphics.line(self.position.x, self.position.y,
-		self.position.x + self.direction.x*4, self.position.y + self.direction.y*4)
+function Bullet:draw(color)
+	love.graphics.setColor(color or {250, 200, 0})
+   love.graphics.circle("fill", self.position.x, self.position.y, 2)
+	--love.graphics.line(self.position.x, self.position.y,
+	--	self.position.x + self.direction.x*4, self.position.y + self.direction.y*4)
 end
