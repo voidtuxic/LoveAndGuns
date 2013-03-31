@@ -78,6 +78,16 @@ function Enemy:update(dt, player, explosions)
 		end
 	end
 
+	-- player missile hit
+	for k,v in ipairs(player.missiles) do
+		if utils.checkCircularCollision(self.position.x, self.position.y, v.position2.x, v.position2.y, 10*self.power, v.exploderadius) then
+			self.power = 0
+   			self.agroradius = self.power*300
+   			v.explode = true
+   			table.insert(explosions, {radius = 0, position = {x = self.position.x, y = self.position.y}}) -- add explosion
+		end
+	end
+
 	-- self bullet update
 	for k,v in ipairs(self.bullets) do
 	    v:update(dt)

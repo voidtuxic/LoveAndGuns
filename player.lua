@@ -1,4 +1,5 @@
 require "bullet"
+require "missile"
 require "utils"
 require('sound')
 vector = require "vector"
@@ -13,7 +14,9 @@ function Player.create(x, y)
    player.position.y = y
    player.rotation = 0
    player.bullets = {}
+   player.missiles = {}
    player.bullettimer = 0
+   player.missiletimer = 0
    player.life = 100
    player.score = 0
    return player
@@ -46,10 +49,25 @@ function Player:update(dt)
 		Sounds.shoot:play()
 	end
 
+	self.missiletimer = self.missiletimer + dt -- missiles
+	if self.missiletimer >= 10 and love.mouse.isDown('r') then
+		self.missiletimer = 0
+		local x,y = love.mouse.getPosition()
+		table.insert(self.missiles, Missile.create(self.position.x,self.position.y, delta.x, delta.y, 
+			x,y))
+	end
+
 	for k,v in ipairs(self.bullets) do
 	    v:update(dt)
 		if v.life >= 2 then -- 2 seconds bullets, should be enough for offscreen
 			table.remove(self.bullets,k)
+		end
+	end
+
+	for k,v in ipairs(self.missiles) do
+	    v:update(dt)
+		if v.explosionalpha <= 0 then 
+			table.remove(self.missiles,k)
 		end
 	end
 
@@ -108,5 +126,9 @@ function Player:draw()
 
 	for k,v in ipairs(self.bullets) do
 	    v:draw({0, 200, 250})
+	end
+
+	for k,v in ipairs(self.missiles) do
+	    v:draw()
 	end
 end

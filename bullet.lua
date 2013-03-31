@@ -22,7 +22,7 @@ function Bullet:update(dt)
 end
 
 function Bullet:draw(color)
-	love.graphics.setColor(color or {250, 200, 0})
+	love.graphics.setColor(color or {250, 200, 150})
    love.graphics.circle("fill", self.position.x, self.position.y, 2)
 	--love.graphics.line(self.position.x, self.position.y,
 	--	self.position.x + self.direction.x*4, self.position.y + self.direction.y*4)
